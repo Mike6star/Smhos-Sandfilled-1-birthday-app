@@ -24,8 +24,22 @@ export const createServerClientForActions = () => {
 
 // Admin-only client using service role (bypasses RLS)
 export const getAdminSupabase = () => {
+    // Create the regular server client first
   const supabase = createServerClientForActions()
-  // Set the service role key for admin operations
-  supabase.auth.setAuth(process.env.SUPABASE_SERVICE_ROLE_KEY!)
-  return supabase
+
+  // Instead of setAuth, we create a new client with the service role key
+  // by directly using the Supabase client with the service role key
+const { createClient } = require('@supabase/supabase-js')
+const adminClient = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+    {
+        auth: {
+            autoRefreshToken: false,
+            persistSession: false
+        }
+    }
+)
+
+return adminClient
 }
