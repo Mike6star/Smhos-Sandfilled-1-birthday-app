@@ -1,0 +1,14 @@
+# Environment variables (DO NOT UPLOAD THESE!)
+.env.local
+.env*.local
+
+# Dependencies
+node_modules/
+
+# Next.js build output
+.next/
+out/
+
+# System files
+.DS_Store
+Thumbs.db
